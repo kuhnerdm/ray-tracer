@@ -10,6 +10,8 @@ public:
 	}
 
 	Scene(objLoader &obj) {
+
+		// camera
 		if (obj.camera != NULL) {
 			this->camera = Camera(
 				// pos
@@ -33,6 +35,7 @@ public:
 			exit(1);
 		}
 
+		// spheres
 		for (int i = 0; i < obj.sphereCount; i++) {
 			this->primatives.push_back(new Sphere(
 				objToGenVec(obj.vertexList[obj.sphereList[i]->pos_index]),
@@ -40,7 +43,14 @@ public:
 				this->primatives.size()));
 		}
 
-
+		// triangles
+		for (int i = 0; i < obj.faceCount; i++) {
+			this->primatives.push_back(new Triangle(
+				objToGenVec(obj.vertexList[obj.faceList[i]->vertex_index[0]]),
+				objToGenVec(obj.vertexList[obj.faceList[i]->vertex_index[1]]),
+				objToGenVec(obj.vertexList[obj.faceList[i]->vertex_index[2]]),
+				this->primatives.size()));
+		}
 	}
 
 	Camera getCamera() {
