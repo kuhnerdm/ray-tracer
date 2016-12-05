@@ -1,0 +1,12 @@
+# Compile locations
+Debug
+Debug\ Test1
+
+
+# Not source files
+*.sdf
+*.opendb
+*.vcxproj*
+*.png
+*.obj
+*.txt
