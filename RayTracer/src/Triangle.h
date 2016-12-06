@@ -23,7 +23,7 @@ public:
 			return false;
 		}
 
-		float t = -((e - a).dot(n) / d.dot(n));
+		float t = ((a - e).dot(n) / d.dot(n));
 		Vector3 x = ray.getPointAtTime(t);
 		if ((b - a).cross(x - a).dot(n) > 0 && (c - b).cross(x - b).dot(n) > 0 && (a - c).cross(x - c).dot(n) > 0) {
 			hp = Hitpoint(t, this->id, n.normalize());

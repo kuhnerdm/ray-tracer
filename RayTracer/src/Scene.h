@@ -53,6 +53,17 @@ public:
 		}
 	}
 
+	Color intersectWithScene(Ray r) {
+		Vector3 d = r.getDirection()*255.0f;
+		Color c = Color(abs(int(d[0])), abs(int(d[1])), abs(int(d[2])));
+		for (int i = 0; i < this->getPrimatives().size(); i++) {
+			if (this->getPrimatives().at(i)->intersect(r, Hitpoint(-1.0, -1, Vector3(-1, -1, -1)))) {
+				c = Color(255, 255, 255);
+			}
+		}
+		return c;
+	}
+
 	Camera getCamera() {
 		return this->camera;
 	}

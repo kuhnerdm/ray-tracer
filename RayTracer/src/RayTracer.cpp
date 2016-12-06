@@ -55,16 +55,7 @@ int main(int argc, char ** argv)
 		for (int x = 0; x<RES; x++)
 		{
 			Ray r = generator.getRay(x, y);
-			Vector3 d = r.getDirection()*255.0f;
-			Color c = Color(abs(int(d[0])), abs(int(d[1])), abs(int(d[2])));
-			buffer.at(x, 99 - y) = c;
-
-			// Overload with white if it hits a primative
-			for (int i = 0; i < scene.getPrimatives().size(); i++) {
-				if (scene.getPrimatives().at(i)->intersect(r, Hitpoint(-1.0, -1, Vector3(-1, -1, -1)))) {
-					buffer.at(x, 99 - y) = Color(255, 255, 255);
-				}
-			}
+			buffer.at(x, 99 - y) = scene.intersectWithScene(r);
 		}
 	}
 
