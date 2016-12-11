@@ -1,3 +1,6 @@
+#ifndef RAY_H
+#define RAY_H
+
 class Ray {
 
 public:
@@ -30,3 +33,4 @@ private:
 	Vector3 dir;
 
 };
+#endif

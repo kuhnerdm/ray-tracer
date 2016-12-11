@@ -1,3 +1,6 @@
+#ifndef HITPOINT_H
+#define HITPOINT_H
+
 class Hitpoint {
 
 public:
@@ -31,3 +34,5 @@ private:
 	Vector3 norm;
 
 };
+
+#endif

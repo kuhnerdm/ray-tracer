@@ -1,3 +1,9 @@
+#ifndef SPHERE_H
+#define SPHERE_H
+
+#include "Primative.h"
+#include "Material.h"
+
 class Sphere : public Primative {
 
 public:
@@ -6,10 +12,15 @@ public:
 
 	}
 
-	Sphere(Vector3 pos, float r, int id) {
+	Sphere(Vector3 pos, float r, int id, Material mat) {
 		this->pos = pos;
 		this->r = r;
 		this->id = id;
+		this->mat = mat;
+	}
+
+	virtual Material getMat() {
+		return this->mat;
 	}
 
 	virtual bool intersect(Ray &ray, Hitpoint &hp) {
@@ -59,5 +70,7 @@ private:
 	Vector3 pos;
 	float r;
 	int id;
+	Material mat;
 
 };
+#endif

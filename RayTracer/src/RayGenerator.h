@@ -1,3 +1,6 @@
+#ifndef RAYGENERATOR_H
+#define RAYGENERATOR_H
+
 class RayGenerator {
 
 public:
@@ -35,3 +38,4 @@ private:
 	int resy;
 
 };
+#endif

@@ -1,3 +1,12 @@
+#ifndef TRIANGLE_H
+#define TRIANGLE_H
+
+#include "Primative.h"
+#include "GenVector.h"
+#include "Material.h"
+#include "Ray.h"
+#include "Hitpoint.h"
+
 class Triangle : public Primative {
 
 public:
@@ -6,11 +15,12 @@ public:
 
 	}
 
-	Triangle(Vector3 a, Vector3 b, Vector3 c, int id) {
+	Triangle(Vector3 a, Vector3 b, Vector3 c, int id, Material mat) {
 		this->a = a;
 		this->b = b;
 		this->c = c;
 		this->id = id;
+		this->mat = mat;
 	}
 
 	virtual bool intersect(Ray &ray, Hitpoint &hp) {
@@ -33,6 +43,10 @@ public:
 		return false;
 	}
 
+	virtual Material getMat() {
+		return this->mat;
+	}
+
 private:
 
 	Vector3 a;
@@ -40,4 +54,7 @@ private:
 	Vector3 c;
 	int id;
 
+	Material mat;
+
 };
+#endif
