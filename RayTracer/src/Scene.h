@@ -7,6 +7,7 @@
 #include "Triangle.h"
 #include "Ray.h"
 #include "Camera.h"
+#include "Light.h"
 
 using namespace std;
 
@@ -32,22 +33,21 @@ public:
 
 		// camera
 		if (obj.camera != NULL) {
-			this->camera = Camera(
-				// pos
-				Vector3(obj.vertexList[obj.camera->camera_pos_index]->e[0],
-					obj.vertexList[obj.camera->camera_pos_index]->e[1],
-					obj.vertexList[obj.camera->camera_pos_index]->e[2]),
+			Vector3 pos = Vector3(obj.vertexList[obj.camera->camera_pos_index]->e[0],
+				obj.vertexList[obj.camera->camera_pos_index]->e[1],
+				obj.vertexList[obj.camera->camera_pos_index]->e[2]);
+			
+			Vector3 at = Vector3(obj.vertexList[obj.camera->camera_look_point_index]->e[0],
+				obj.vertexList[obj.camera->camera_look_point_index]->e[1],
+				obj.vertexList[obj.camera->camera_look_point_index]->e[2]);
 
-				// at
-				Vector3(obj.vertexList[obj.camera->camera_look_point_index]->e[0],
-					obj.vertexList[obj.camera->camera_look_point_index]->e[1],
-					obj.vertexList[obj.camera->camera_look_point_index]->e[2]).normalize(),
+			at = (at - pos).normalize();
 
-				// up
-				Vector3(obj.normalList[obj.camera->camera_up_norm_index]->e[0],
-					obj.normalList[obj.camera->camera_up_norm_index]->e[1],
-					obj.normalList[obj.camera->camera_up_norm_index]->e[2]).normalize()
-			);
+			Vector3 up = Vector3(obj.normalList[obj.camera->camera_up_norm_index]->e[0],
+				obj.normalList[obj.camera->camera_up_norm_index]->e[1],
+				obj.normalList[obj.camera->camera_up_norm_index]->e[2]).normalize();
+
+			this->camera = Camera(pos, at, up);
 		}
 		else {
 			printf("No camera found\n");
@@ -115,6 +115,25 @@ public:
 							obj.materialList[obj.faceList[i]->material_index]->spec[2]))));
 			}
 		}
+
+		// lights
+		for (int i = 0; i < obj.lightPointCount; i++) {
+			this->lights.push_back(new Light(
+				Material(
+					Vector3(
+						obj.materialList[obj.lightPointList[i]->material_index]->diff[0],
+						obj.materialList[obj.lightPointList[i]->material_index]->diff[1],
+						obj.materialList[obj.lightPointList[i]->material_index]->diff[2]),
+					Vector3(
+						obj.materialList[obj.lightPointList[i]->material_index]->amb[0],
+						obj.materialList[obj.lightPointList[i]->material_index]->amb[1],
+						obj.materialList[obj.lightPointList[i]->material_index]->amb[2]),
+					Vector3(
+						obj.materialList[obj.lightPointList[i]->material_index]->spec[0],
+						obj.materialList[obj.lightPointList[i]->material_index]->spec[1],
+						obj.materialList[obj.lightPointList[i]->material_index]->spec[2])),
+				objToGenVec(obj.vertexList[obj.lightPointList[i]->pos_index])));
+		}
 	}
 
 	Hitpoint intersectWithScene(Ray r) {
@@ -125,7 +144,7 @@ public:
 		for (int i = 0; i < this->getPrimatives().size(); i++) {
 			Hitpoint hp = Hitpoint(-1.0, -1, Vector3(-1, -1, -1));
 			if (this->getPrimatives().at(i)->intersect(r, hp)) {
-				if (hp.getT() < closestT || closestT == -1) {
+				if (hp.getT() > 0 && (hp.getT() < closestT || closestT == -1)) {
 					closestT = hp.getT();
 					closestHP = hp;
 				}
@@ -142,9 +161,14 @@ public:
 		return this->primatives;
 	}
 
+	vector<Light*> getLights() {
+		return this->lights;
+	}
+
 private:
 	
 	vector<Primative*> primatives;
+	vector<Light*> lights;
 	Camera camera;
 
 };

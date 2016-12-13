@@ -28,7 +28,6 @@ int main(int argc, char ** argv)
 		exit(0);
 	}
 
-	//TODO: load obj from file argv1
 	objLoader objData = objLoader();
 	objData.load(argv[1]);
 

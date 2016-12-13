@@ -28,7 +28,11 @@ public:
 
 		float d = (1 / tan(camera.getFOV() / 2)) * (resx / 2);
 		
-		return Ray(camera.getPos(), (u * camera.getU() + v * camera.getV() - d * camera.getW()).normalize());
+		Vector3 s = camera.getPos() + u * camera.getU() + v * camera.getV() - d * camera.getW();
+
+		Vector3 rayDir = (s - camera.getPos()).normalize();
+
+		return Ray(camera.getPos(), rayDir);
 	}
 
 private:

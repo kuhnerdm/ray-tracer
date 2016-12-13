@@ -15,6 +15,18 @@ public:
 		this->ks = ks;
 	}
 
+	Vector3 getKD() {
+		return this->kd;
+	}
+
+	Vector3 getKA() {
+		return this->ka;
+	}
+
+	Vector3 getKS() {
+		return this->ks;
+	}
+
 private:
 
 	Vector3 kd;
