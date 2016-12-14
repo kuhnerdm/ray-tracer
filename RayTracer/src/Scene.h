@@ -21,6 +21,14 @@ Vector3 objToGenVec(obj_vector const * objVec)
 	return v;
 }
 
+Vector3 doubleArrToGenVec(double * arr) {
+	Vector3 v;
+	v[0] = arr[0];
+	v[1] = arr[1];
+	v[2] = arr[2];
+	return v;
+}
+
 class Scene {
 	
 public:
@@ -33,20 +41,10 @@ public:
 
 		// camera
 		if (obj.camera != NULL) {
-			Vector3 pos = Vector3(obj.vertexList[obj.camera->camera_pos_index]->e[0],
-				obj.vertexList[obj.camera->camera_pos_index]->e[1],
-				obj.vertexList[obj.camera->camera_pos_index]->e[2]);
-			
-			Vector3 at = Vector3(obj.vertexList[obj.camera->camera_look_point_index]->e[0],
-				obj.vertexList[obj.camera->camera_look_point_index]->e[1],
-				obj.vertexList[obj.camera->camera_look_point_index]->e[2]);
-
+			Vector3 pos = objToGenVec(obj.vertexList[obj.camera->camera_pos_index]);
+			Vector3 at = objToGenVec(obj.vertexList[obj.camera->camera_look_point_index]);
 			at = (at - pos).normalize();
-
-			Vector3 up = Vector3(obj.normalList[obj.camera->camera_up_norm_index]->e[0],
-				obj.normalList[obj.camera->camera_up_norm_index]->e[1],
-				obj.normalList[obj.camera->camera_up_norm_index]->e[2]).normalize();
-
+			Vector3 up = objToGenVec(obj.normalList[obj.camera->camera_up_norm_index]);
 			this->camera = Camera(pos, at, up);
 		}
 		else {
@@ -69,18 +67,9 @@ public:
 					objToGenVec(obj.normalList[obj.sphereList[i]->up_normal_index]).length(),
 					this->primatives.size(),
 					Material(
-						Vector3(
-							obj.materialList[obj.sphereList[i]->material_index]->diff[0],
-							obj.materialList[obj.sphereList[i]->material_index]->diff[1],
-							obj.materialList[obj.sphereList[i]->material_index]->diff[2]),
-						Vector3(
-							obj.materialList[obj.sphereList[i]->material_index]->amb[0],
-							obj.materialList[obj.sphereList[i]->material_index]->amb[1],
-							obj.materialList[obj.sphereList[i]->material_index]->amb[2]),
-						Vector3(
-							obj.materialList[obj.sphereList[i]->material_index]->spec[0],
-							obj.materialList[obj.sphereList[i]->material_index]->spec[1],
-							obj.materialList[obj.sphereList[i]->material_index]->spec[2]),
+						doubleArrToGenVec(obj.materialList[obj.sphereList[i]->material_index]->diff),
+						doubleArrToGenVec(obj.materialList[obj.sphereList[i]->material_index]->amb),
+						doubleArrToGenVec(obj.materialList[obj.sphereList[i]->material_index]->spec),
 						obj.materialList[obj.sphereList[i]->material_index]->shiny)));
 			}
 		}
@@ -102,18 +91,9 @@ public:
 					objToGenVec(obj.vertexList[obj.faceList[i]->vertex_index[2]]),
 					this->primatives.size(),
 					Material(
-						Vector3(
-							obj.materialList[obj.faceList[i]->material_index]->diff[0],
-							obj.materialList[obj.faceList[i]->material_index]->diff[1],
-							obj.materialList[obj.faceList[i]->material_index]->diff[2]),
-						Vector3(
-							obj.materialList[obj.faceList[i]->material_index]->amb[0],
-							obj.materialList[obj.faceList[i]->material_index]->amb[1],
-							obj.materialList[obj.faceList[i]->material_index]->amb[2]),
-						Vector3(
-							obj.materialList[obj.faceList[i]->material_index]->spec[0],
-							obj.materialList[obj.faceList[i]->material_index]->spec[1],
-							obj.materialList[obj.faceList[i]->material_index]->spec[2]),
+						doubleArrToGenVec(obj.materialList[obj.faceList[i]->material_index]->diff),
+						doubleArrToGenVec(obj.materialList[obj.faceList[i]->material_index]->amb),
+						doubleArrToGenVec(obj.materialList[obj.faceList[i]->material_index]->spec),
 						obj.materialList[obj.faceList[i]->material_index]->shiny)));
 			}
 		}
@@ -122,18 +102,9 @@ public:
 		for (int i = 0; i < obj.lightPointCount; i++) {
 			this->lights.push_back(new Light(
 				Material(
-					Vector3(
-						obj.materialList[obj.lightPointList[i]->material_index]->diff[0],
-						obj.materialList[obj.lightPointList[i]->material_index]->diff[1],
-						obj.materialList[obj.lightPointList[i]->material_index]->diff[2]),
-					Vector3(
-						obj.materialList[obj.lightPointList[i]->material_index]->amb[0],
-						obj.materialList[obj.lightPointList[i]->material_index]->amb[1],
-						obj.materialList[obj.lightPointList[i]->material_index]->amb[2]),
-					Vector3(
-						obj.materialList[obj.lightPointList[i]->material_index]->spec[0],
-						obj.materialList[obj.lightPointList[i]->material_index]->spec[1],
-						obj.materialList[obj.lightPointList[i]->material_index]->spec[2]),
+					doubleArrToGenVec(obj.materialList[obj.lightPointList[i]->material_index]->diff),
+					doubleArrToGenVec(obj.materialList[obj.lightPointList[i]->material_index]->amb),
+					doubleArrToGenVec(obj.materialList[obj.lightPointList[i]->material_index]->spec),
 					0.0),
 				objToGenVec(obj.vertexList[obj.lightPointList[i]->pos_index])));
 		}
