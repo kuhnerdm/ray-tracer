@@ -39,63 +39,49 @@ public:
 
 	Scene(objLoader &obj) {
 
-		// camera
-		if (obj.camera != NULL) {
-			Vector3 pos = objToGenVec(obj.vertexList[obj.camera->camera_pos_index]);
-			Vector3 at = objToGenVec(obj.vertexList[obj.camera->camera_look_point_index]);
-			at = (at - pos).normalize();
-			Vector3 up = objToGenVec(obj.normalList[obj.camera->camera_up_norm_index]);
-			this->camera = Camera(pos, at, up);
-		}
-		else {
+		// various checks for invalid objs
+		if (obj.camera == NULL) {
 			printf("No camera found\n");
 			exit(1);
 		}
 
+		if (obj.materialCount == 0) {
+			printf("No materials found\n");
+			exit(1);
+		}
+
+		// camera
+		Vector3 pos = objToGenVec(obj.vertexList[obj.camera->camera_pos_index]);
+		Vector3 at = objToGenVec(obj.vertexList[obj.camera->camera_look_point_index]);
+		at = (at - pos).normalize();
+		Vector3 up = objToGenVec(obj.normalList[obj.camera->camera_up_norm_index]);
+		this->camera = Camera(pos, at, up);
+
 		// spheres
 		for (int i = 0; i < obj.sphereCount; i++) {
-			if (obj.materialCount == 0) {
-				this->primatives.push_back(new Sphere(
-					objToGenVec(obj.vertexList[obj.sphereList[i]->pos_index]),
-					objToGenVec(obj.normalList[obj.sphereList[i]->up_normal_index]).length(),
-					this->primatives.size(),
-					Material()));
-			}
-			else {
-				this->primatives.push_back(new Sphere(
-					objToGenVec(obj.vertexList[obj.sphereList[i]->pos_index]),
-					objToGenVec(obj.normalList[obj.sphereList[i]->up_normal_index]).length(),
-					this->primatives.size(),
-					Material(
-						doubleArrToGenVec(obj.materialList[obj.sphereList[i]->material_index]->diff),
-						doubleArrToGenVec(obj.materialList[obj.sphereList[i]->material_index]->amb),
-						doubleArrToGenVec(obj.materialList[obj.sphereList[i]->material_index]->spec),
-						obj.materialList[obj.sphereList[i]->material_index]->shiny)));
-			}
+			this->primatives.push_back(new Sphere(
+				objToGenVec(obj.vertexList[obj.sphereList[i]->pos_index]),
+				objToGenVec(obj.normalList[obj.sphereList[i]->up_normal_index]).length(),
+				this->primatives.size(),
+				Material(
+					doubleArrToGenVec(obj.materialList[obj.sphereList[i]->material_index]->diff),
+					doubleArrToGenVec(obj.materialList[obj.sphereList[i]->material_index]->amb),
+					doubleArrToGenVec(obj.materialList[obj.sphereList[i]->material_index]->spec),
+					obj.materialList[obj.sphereList[i]->material_index]->shiny)));
 		}
 
 		// triangles
 		for (int i = 0; i < obj.faceCount; i++) {
-			if (obj.materialCount == 0) {
-				this->primatives.push_back(new Triangle(
-					objToGenVec(obj.vertexList[obj.faceList[i]->vertex_index[0]]),
-					objToGenVec(obj.vertexList[obj.faceList[i]->vertex_index[1]]),
-					objToGenVec(obj.vertexList[obj.faceList[i]->vertex_index[2]]),
-					this->primatives.size(),
-					Material()));
-			}
-			else {
-				this->primatives.push_back(new Triangle(
-					objToGenVec(obj.vertexList[obj.faceList[i]->vertex_index[0]]),
-					objToGenVec(obj.vertexList[obj.faceList[i]->vertex_index[1]]),
-					objToGenVec(obj.vertexList[obj.faceList[i]->vertex_index[2]]),
-					this->primatives.size(),
-					Material(
-						doubleArrToGenVec(obj.materialList[obj.faceList[i]->material_index]->diff),
-						doubleArrToGenVec(obj.materialList[obj.faceList[i]->material_index]->amb),
-						doubleArrToGenVec(obj.materialList[obj.faceList[i]->material_index]->spec),
-						obj.materialList[obj.faceList[i]->material_index]->shiny)));
-			}
+			this->primatives.push_back(new Triangle(
+				objToGenVec(obj.vertexList[obj.faceList[i]->vertex_index[0]]),
+				objToGenVec(obj.vertexList[obj.faceList[i]->vertex_index[1]]),
+				objToGenVec(obj.vertexList[obj.faceList[i]->vertex_index[2]]),
+				this->primatives.size(),
+				Material(
+					doubleArrToGenVec(obj.materialList[obj.faceList[i]->material_index]->diff),
+					doubleArrToGenVec(obj.materialList[obj.faceList[i]->material_index]->amb),
+					doubleArrToGenVec(obj.materialList[obj.faceList[i]->material_index]->spec),
+					obj.materialList[obj.faceList[i]->material_index]->shiny)));
 		}
 
 		// lights
