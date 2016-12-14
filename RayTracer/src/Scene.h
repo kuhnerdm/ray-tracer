@@ -80,7 +80,8 @@ public:
 						Vector3(
 							obj.materialList[obj.sphereList[i]->material_index]->spec[0],
 							obj.materialList[obj.sphereList[i]->material_index]->spec[1],
-							obj.materialList[obj.sphereList[i]->material_index]->spec[2]))));
+							obj.materialList[obj.sphereList[i]->material_index]->spec[2]),
+						obj.materialList[obj.sphereList[i]->material_index]->shiny)));
 			}
 		}
 
@@ -112,7 +113,8 @@ public:
 						Vector3(
 							obj.materialList[obj.faceList[i]->material_index]->spec[0],
 							obj.materialList[obj.faceList[i]->material_index]->spec[1],
-							obj.materialList[obj.faceList[i]->material_index]->spec[2]))));
+							obj.materialList[obj.faceList[i]->material_index]->spec[2]),
+						obj.materialList[obj.faceList[i]->material_index]->shiny)));
 			}
 		}
 
@@ -131,7 +133,8 @@ public:
 					Vector3(
 						obj.materialList[obj.lightPointList[i]->material_index]->spec[0],
 						obj.materialList[obj.lightPointList[i]->material_index]->spec[1],
-						obj.materialList[obj.lightPointList[i]->material_index]->spec[2])),
+						obj.materialList[obj.lightPointList[i]->material_index]->spec[2]),
+					0.0),
 				objToGenVec(obj.vertexList[obj.lightPointList[i]->pos_index])));
 		}
 	}

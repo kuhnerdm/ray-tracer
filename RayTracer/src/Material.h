@@ -9,10 +9,11 @@ public:
 
 	}
 
-	Material(Vector3 kd, Vector3 ka, Vector3 ks) {
+	Material(Vector3 kd, Vector3 ka, Vector3 ks, float ns) {
 		this->kd = kd;
 		this->ka = ka;
 		this->ks = ks;
+		this->ns = ns;
 	}
 
 	Vector3 getKD() {
@@ -27,11 +28,16 @@ public:
 		return this->ks;
 	}
 
+	float getNS() {
+		return this->ns;
+	}
+
 private:
 
 	Vector3 kd;
 	Vector3 ka;
 	Vector3 ks;
+	float ns;
 };
 
 #endif
