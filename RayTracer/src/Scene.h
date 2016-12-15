@@ -67,7 +67,8 @@ public:
 					doubleArrToGenVec(obj.materialList[obj.sphereList[i]->material_index]->diff),
 					doubleArrToGenVec(obj.materialList[obj.sphereList[i]->material_index]->amb),
 					doubleArrToGenVec(obj.materialList[obj.sphereList[i]->material_index]->spec),
-					obj.materialList[obj.sphereList[i]->material_index]->shiny)));
+					obj.materialList[obj.sphereList[i]->material_index]->shiny,
+					obj.materialList[obj.sphereList[i]->material_index]->reflect)));
 		}
 
 		// triangles
@@ -81,7 +82,8 @@ public:
 					doubleArrToGenVec(obj.materialList[obj.faceList[i]->material_index]->diff),
 					doubleArrToGenVec(obj.materialList[obj.faceList[i]->material_index]->amb),
 					doubleArrToGenVec(obj.materialList[obj.faceList[i]->material_index]->spec),
-					obj.materialList[obj.faceList[i]->material_index]->shiny)));
+					obj.materialList[obj.faceList[i]->material_index]->shiny,
+					obj.materialList[obj.faceList[i]->material_index]->reflect)));
 		}
 
 		// lights
@@ -91,6 +93,7 @@ public:
 					doubleArrToGenVec(obj.materialList[obj.lightPointList[i]->material_index]->diff),
 					doubleArrToGenVec(obj.materialList[obj.lightPointList[i]->material_index]->amb),
 					doubleArrToGenVec(obj.materialList[obj.lightPointList[i]->material_index]->spec),
+					0.0,
 					0.0),
 				objToGenVec(obj.vertexList[obj.lightPointList[i]->pos_index])));
 		}

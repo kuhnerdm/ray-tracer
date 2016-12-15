@@ -45,7 +45,7 @@ int main(int argc, char ** argv)
 		{
 			Ray r = generator.getRay(x, y);
 			Hitpoint hp = scene.intersectWithScene(r);
-			buffer.at(x, RES - y - 1) = shader.shade(r, hp);
+			buffer.at(x, RES - y - 1) = shader.shade(r, hp, 1.0);
 
 			// Get highest number across the whole buffer for scaling
 			if (buffer.at(x, 99 - y)[0] > highest) {

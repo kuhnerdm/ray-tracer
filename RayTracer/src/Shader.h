@@ -13,7 +13,7 @@ public:
 		this->s = s;
 	}
 
-	Vector3 shade(Ray r, Hitpoint hp) {
+	Vector3 shade(Ray r, Hitpoint hp, float energy) {
 		if (hp.getT() < 0) {
 			return Vector3(0, 0, 0);
 		}
@@ -59,7 +59,19 @@ public:
 
 		}
 
-		return amb + diff + spec;
+		Vector3 surfaceComp = amb + diff + spec;
+		if (energy < 0.001) { // No more reflections
+			return surfaceComp;
+		}
+
+		float refl = s.getPrimatives()[hp.getObj()]->getMat().getRefl();
+		Vector3 newVec = r.getDirection() - 2 * (r.getDirection().dot(hp.getNorm().normalize())) * hp.getNorm().normalize();
+		Ray newRay = Ray(r.getPointAtTime(hp.getT()) + newVec/newVec.length() * 0.01, newVec.normalize());
+		Hitpoint newHP = s.intersectWithScene(newRay);
+		Vector3 refComp = this->shade(newRay, newHP, energy * refl);
+
+		return (1 - refl) * surfaceComp + refl * refComp;
+
 	}
 
 private:
