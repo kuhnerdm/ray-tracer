@@ -17,12 +17,7 @@ public:
 
 	}
 
-	AABB(Vector3 min, Vector3 max, int id) {
-		this->min = min;
-		this->max = max;
-		this->id = id;
-	}
-
+	// Constructs entire tree
 	AABB(vector<Primative*> primatives) {
 
 		// Clamp all dimensions of the AABB to the min/max of the dimensions of the primatives
@@ -80,6 +75,7 @@ public:
 
 	}
 
+	// Intsersects with the AABB, not anything inside
 	virtual bool intersect(Ray &ray, Hitpoint &hp) {
 		const size_t vecDim = 3;
 		float entrance = 0.0f;
@@ -120,6 +116,52 @@ public:
 		}
 
 		hp = Hitpoint(entrance, this->id, normal);
+		return true;
+	}
+
+	bool intersectWithTree(Ray &ray, Hitpoint &hp) {
+
+		// Check if the ray hits the AABB. If not, then return false
+		if (!this->intersect(ray, hp)) {
+			return false;
+		}
+
+		// If prim is not NULL, then call intersect on prim, load result hp into current hp, and return result of prim intersect call
+		if (this->prim != NULL) {
+			return this->prim->intersect(ray, hp);
+		}
+
+		// Call intersect on a and b; store result hps
+		Hitpoint aHP = Hitpoint(-1.0, -1, Vector3(-1, -1, -1));
+		Hitpoint bHP = Hitpoint(-1.0, -1, Vector3(-1, -1, -1));
+		bool hitA = this->a->intersectWithTree(ray, aHP);
+		bool hitB = this->b->intersectWithTree(ray, bHP);
+		
+		// If both are false, then return false
+		if (!(hitA || hitB)) {
+			return false;
+		}
+
+		// If one is true, then load the result hp into current hp, and return true
+		if (!hitA || !hitB) {
+			if (hitA) {
+				hp = aHP;
+			}
+			else {
+				hp = bHP;
+			}
+			return true;
+		}
+
+		// If both are true, then check which hp is closer to the ray's root, load that hp into current hp, and return true
+		Vector3 aPos = ray.getPointAtTime(aHP.getT());
+		Vector3 bPos = ray.getPointAtTime(bHP.getT());
+		if (aPos.distance(ray.getRoot()) < bPos.distance(ray.getRoot())) {
+			hp = aHP;
+		}
+		else {
+			hp = bHP;
+		}
 		return true;
 	}
 
