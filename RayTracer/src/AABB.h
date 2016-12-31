@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <climits>
 
-class AABB : public Primative{
+class AABB : public Primative {
 
 public:
 
@@ -65,6 +65,18 @@ public:
 
 	virtual Material getMat() {
 		return Material();
+	}
+
+	virtual Vector3 getCenter() {
+		return (this->min + this->max) / 2;
+	}
+
+	virtual Vector3 getMin() {
+		return this->min;
+	}
+
+	virtual Vector3 getMax() {
+		return this->max;
 	}
 
 private:

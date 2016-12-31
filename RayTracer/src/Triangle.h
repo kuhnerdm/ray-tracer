@@ -47,6 +47,24 @@ public:
 		return this->mat;
 	}
 
+	virtual Vector3 getCenter() {
+		return (this->a + this->b + this->c) / 3;
+	}
+
+	virtual Vector3 getMin() {
+		return Vector3(
+			__min(__min(this->a[0], this->b[0]), this->c[0]),
+			__min(__min(this->a[1], this->b[1]), this->c[1]),
+			__min(__min(this->a[2], this->b[2]), this->c[2]));
+	}
+
+	virtual Vector3 getMax() {
+		return Vector3(
+			__max(__max(this->a[0], this->b[0]), this->c[0]),
+			__max(__max(this->a[1], this->b[1]), this->c[1]),
+			__max(__max(this->a[2], this->b[2]), this->c[2]));
+	}
+
 private:
 
 	Vector3 a;

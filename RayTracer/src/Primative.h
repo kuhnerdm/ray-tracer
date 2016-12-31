@@ -11,6 +11,9 @@ public:
 
 	virtual bool intersect(Ray &ray, Hitpoint &hp) = 0;
 	virtual Material getMat() = 0;
+	virtual Vector3 getCenter() = 0;
+	virtual Vector3 getMin() = 0;
+	virtual Vector3 getMax() = 0;
 
 private:
 

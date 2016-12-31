@@ -65,6 +65,18 @@ public:
 
 	}
 
+	virtual Vector3 getCenter() {
+		return this->pos;
+	}
+
+	virtual Vector3 getMin() {
+		return this->pos - this->r;
+	}
+
+	virtual Vector3 getMax() {
+		return this->pos + this->r;
+	}
+
 private:
 
 	Vector3 pos;
