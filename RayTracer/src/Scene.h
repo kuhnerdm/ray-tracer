@@ -98,23 +98,15 @@ public:
 					0.0),
 				objToGenVec(obj.vertexList[obj.lightPointList[i]->pos_index])));
 		}
+		this->tree = new AABB(this->getPrimatives());
 	}
 
 	Hitpoint intersectWithScene(Ray r) {
-		Vector3 d = r.getDirection()*255.0f;
 		Color c = Color(0, 0, 0);
 		float closestT = -1;
-		Hitpoint closestHP = Hitpoint(-1.0, -1, Vector3(-1, -1, -1));
-		for (int i = 0; i < this->getPrimatives().size(); i++) {
-			Hitpoint hp = Hitpoint(-1.0, -1, Vector3(-1, -1, -1));
-			if (this->getPrimatives().at(i)->intersect(r, hp)) {
-				if (hp.getT() > 0 && (hp.getT() < closestT || closestT == -1)) {
-					closestT = hp.getT();
-					closestHP = hp;
-				}
-			}
-		}
-		return closestHP;
+		Hitpoint hp = Hitpoint(-1.0, -1, Vector3(-1, -1, -1));
+		tree->intersectWithTree(r, hp);
+		return hp;
 	}
 
 	Camera getCamera() {
@@ -134,6 +126,7 @@ private:
 	vector<Primative*> primatives;
 	vector<Light*> lights;
 	Camera camera;
+	AABB* tree;
 
 };
 #endif
