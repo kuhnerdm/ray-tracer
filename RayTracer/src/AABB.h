@@ -5,6 +5,9 @@
 #include "Primative.h"
 #include <algorithm>
 #include <climits>
+#include <vector>
+
+using namespace std;
 
 class AABB : public Primative {
 
@@ -18,6 +21,63 @@ public:
 		this->min = min;
 		this->max = max;
 		this->id = id;
+	}
+
+	AABB(vector<Primative*> primatives) {
+
+		// Clamp all dimensions of the AABB to the min/max of the dimensions of the primatives
+		this->id = -1;
+		this->min = primatives[0]->getMin();
+		this->max = primatives[0]->getMax();
+		for (int i = 1; i < primatives.size(); i++) {
+			for (int j = 0; j < 3; j++) {
+				if (primatives[i]->getMin()[j] < this->min[j]) {
+					this->min[j] = primatives[i]->getMin()[j];
+				}
+				if (primatives[i]->getMax()[j] > this->max[j]) {
+					this->max[j] = primatives[i]->getMax()[j];
+				}
+			}
+		}
+
+		// If vector size == 1, keep a reference to the primative, make the two AABBs = NULL, and return
+		if (primatives.size() == 1) {
+			this->prim = primatives[0];
+			this->a = NULL;
+			this->b = NULL;
+			return;
+		}
+
+		// Find largest dimension (0, 1, 2)
+		int maxDim = 0;
+		float max = this->max[0] - this->min[0];
+		for (int i = 1; i < 3; i++) {
+			if (this->max[i] - this->min[i] > max) {
+				maxDim = i;
+				max = this->max[i] - this->min[i];
+			}
+		}
+
+		// Divide that dimension in half
+		float midPoint = (this->min[maxDim] + this->max[maxDim]) / 2;
+
+		// Make a vector of primatives for each half
+		vector<Primative*> a = vector<Primative*>();
+		vector<Primative*> b = vector<Primative*>();
+		for (int i = 0; i < primatives.size(); i++) {
+			if (primatives[i]->getCenter()[maxDim] < midPoint) {
+				a.push_back(primatives[i]);
+			}
+			else {
+				b.push_back(primatives[i]);
+			}
+		}
+
+		// Construct an AABB for each half; Keep a reference to both AABBs, make the primative = NULL, and return
+		this->a = new AABB(a);
+		this->b = new AABB(b);
+		this->prim = NULL;
+
 	}
 
 	virtual bool intersect(Ray &ray, Hitpoint &hp) {
@@ -84,7 +144,9 @@ private:
 	Vector3 min;
 	Vector3 max;
 	int id;
-
+	Primative* prim;
+	AABB* a;
+	AABB* b;
 };
 
 #endif

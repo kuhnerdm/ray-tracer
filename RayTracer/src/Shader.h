@@ -18,11 +18,6 @@ public:
 			return Vector3(0, 0, 0);
 		}
 
-		// FOR AABB TESTING
-		if (hp.getObj() < 0) {
-			return Vector3(15, 15, 15);
-		}
-
 		Vector3 amb = Vector3(0, 0, 0);
 		Vector3 diff = Vector3(0, 0, 0);
 		Vector3 spec = Vector3(0, 0, 0);

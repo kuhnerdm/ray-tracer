@@ -98,9 +98,6 @@ public:
 					0.0),
 				objToGenVec(obj.vertexList[obj.lightPointList[i]->pos_index])));
 		}
-
-		// FOR AABB TESTING:
-		this->primatives.push_back(new AABB(Vector3(1.0, 1.0, 1.0), Vector3(5.0, 2.0, 2.0), -1));
 	}
 
 	Hitpoint intersectWithScene(Ray r) {
