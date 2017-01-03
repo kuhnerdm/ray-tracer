@@ -18,7 +18,7 @@ public:
 	}
 
 	// Constructs entire tree
-	AABB(vector<Primative*> primatives) {
+	AABB(vector<Primative*> &primatives) {
 
 		// Clamp all dimensions of the AABB to the min/max of the dimensions of the primatives
 		this->id = -1;
@@ -56,21 +56,21 @@ public:
 		// Divide that dimension in half
 		float midPoint = (this->min[maxDim] + this->max[maxDim]) / 2;
 
-		// Make a vector of primatives for each half
-		vector<Primative*> a = vector<Primative*>();
-		vector<Primative*> b = vector<Primative*>();
+		// Make a vector of primative pointers for each half
+		vector<Primative*>* a = new vector<Primative*>();
+		vector<Primative*>* b = new vector<Primative*>();
 		for (int i = 0; i < primatives.size(); i++) {
 			if (primatives[i]->getCenter()[maxDim] < midPoint) {
-				a.push_back(primatives[i]);
+				a->push_back(primatives[i]);
 			}
 			else {
-				b.push_back(primatives[i]);
+				b->push_back(primatives[i]);
 			}
 		}
 
 		// Construct an AABB for each half; Keep a reference to both AABBs, make the primative = NULL, and return
-		this->a = new AABB(a);
-		this->b = new AABB(b);
+		this->a = new AABB(*a);
+		this->b = new AABB(*b);
 		this->prim = NULL;
 
 	}
