@@ -68,6 +68,16 @@ public:
 			}
 		}
 
+		// Deal with cases where all primatives end up on one side
+		if (a.empty()) {
+			a.push_back(b[b.size()-1]);
+			b.pop_back();
+		}
+		if (b.empty()) {
+			b.push_back(a[a.size() - 1]);
+			a.pop_back();
+		}
+
 		// Construct an AABB for each half; Keep a reference to both AABBs, make the primative = NULL, and return
 		this->a = new AABB(a);
 		this->b = new AABB(b);
