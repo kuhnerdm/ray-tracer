@@ -1,8 +1,13 @@
 # Compile locations
 Debug
 Debug\ Test1
+x64
+blue_sphere
+cornell_box
+spheres
 Release
 .vs/
+RayTracer/bunny_scene
 
 
 # Not source files
