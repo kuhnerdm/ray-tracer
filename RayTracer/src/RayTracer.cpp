@@ -14,7 +14,7 @@
 #include "simplePNG.h"
 
 
-#define RES 10
+#define RES 100
 
 int main(int argc, char ** argv)
 {

@@ -14,7 +14,7 @@ public:
 	}
 
 	Vector3 shade(Ray r, Hitpoint hp, float energy) {
-		if (hp.getT() < 0) {
+		if (hp.getT() < 0 || hp.getObj() < 0) {
 			return Vector3(0, 0, 0);
 		}
 

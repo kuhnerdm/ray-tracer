@@ -108,8 +108,6 @@ public:
 	}
 
 	Hitpoint intersectWithScene(Ray r) {
-		Color c = Color(0, 0, 0);
-		float closestT = -1;
 		Hitpoint hp = Hitpoint(-1.0, -1, Vector3(-1, -1, -1));
 		tree->intersectWithTree(r, hp);
 		return hp;
