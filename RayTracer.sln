@@ -13,6 +13,8 @@ Global
 		bunny-scene|x86 = bunny-scene|x86
 		cornell_box|x64 = cornell_box|x64
 		cornell_box|x86 = cornell_box|x86
+		happy-scene|x64 = happy-scene|x64
+		happy-scene|x86 = happy-scene|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 		spheres|x64 = spheres|x64
@@ -31,6 +33,10 @@ Global
 		{C5D3F171-E67C-43E0-BFE1-FBA170EF73B1}.cornell_box|x64.Build.0 = cornell_box|x64
 		{C5D3F171-E67C-43E0-BFE1-FBA170EF73B1}.cornell_box|x86.ActiveCfg = cornell_box|Win32
 		{C5D3F171-E67C-43E0-BFE1-FBA170EF73B1}.cornell_box|x86.Build.0 = cornell_box|Win32
+		{C5D3F171-E67C-43E0-BFE1-FBA170EF73B1}.happy-scene|x64.ActiveCfg = happy-scene|x64
+		{C5D3F171-E67C-43E0-BFE1-FBA170EF73B1}.happy-scene|x64.Build.0 = happy-scene|x64
+		{C5D3F171-E67C-43E0-BFE1-FBA170EF73B1}.happy-scene|x86.ActiveCfg = happy-scene|Win32
+		{C5D3F171-E67C-43E0-BFE1-FBA170EF73B1}.happy-scene|x86.Build.0 = happy-scene|Win32
 		{C5D3F171-E67C-43E0-BFE1-FBA170EF73B1}.Release|x64.ActiveCfg = Release|x64
 		{C5D3F171-E67C-43E0-BFE1-FBA170EF73B1}.Release|x64.Build.0 = Release|x64
 		{C5D3F171-E67C-43E0-BFE1-FBA170EF73B1}.Release|x86.ActiveCfg = Release|Win32

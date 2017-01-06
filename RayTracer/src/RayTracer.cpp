@@ -14,7 +14,7 @@
 #include "simplePNG.h"
 
 
-#define RES 100
+#define RES 300
 
 int main(int argc, char ** argv)
 {
@@ -48,13 +48,13 @@ int main(int argc, char ** argv)
 			buffer.at(x, RES - y - 1) = shader.shade(r, hp, 1.0);
 
 			// Get highest number across the whole buffer for scaling
-			if (buffer.at(x, 99 - y)[0] > highest) {
+			if (buffer.at(x, RES-1 - y)[0] > highest) {
 				highest = buffer.at(x, RES - y - 1)[0];
 			}
-			if (buffer.at(x, 99 - y)[1] > highest) {
+			if (buffer.at(x, RES-1 - y)[1] > highest) {
 				highest = buffer.at(x, RES - y - 1)[1];
 			}
-			if (buffer.at(x, 99 - y)[2] > highest) {
+			if (buffer.at(x, RES-1 - y)[2] > highest) {
 				highest = buffer.at(x, RES - y - 1)[2];
 			}
 		}
